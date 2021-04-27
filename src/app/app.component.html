@@ -1,18 +1,20 @@
 <!--label for="fname">Enter Text To Be Translated:</label &nbsp;  -->
 <!--input #textToBeTranslated &nbsp;&nbsp;  --> 
+<form [formGroup]="mainForm">
 <div class="input-field col s6">
-    <input id="textToBeTranslated" type="text" class="validate" #textToBeTranslated>
+    <input id="textToBeTranslated" name="textToBeTranslated" [formControl]="mainForm.controls['textToBeTranslated']" type="text" class="validate" #textToBeTranslated>
     <label for="textToBeTranslated">Enter Text To Be Translated:</label>
   </div>
   <div class="input-field col s6">
-    <input id="source" [(ngModel)]= "source"  type="text" class="validate" >
+    <input id="source"  name="source" [formControl]="mainForm.controls['source']" type="text" class="validate" >
     <label for="source">Enter Source:</label>&nbsp;
   </div>
   <div class="input-field col s6">
-    <input id="target"  [(ngModel)] = "target" type="text" class="validate">
+    <input id="target" name="target" [formControl]="mainForm.controls['target']" type="text" class="validate">
     <label for="target" >Target: </label>
  </div>
 
 <br>
-<Button id="b1" (click)="clicked(textToBeTranslated)">{{buttonDisplay}}</Button>
-<app-displayresult [buttonChildText]="buttonText"></app-displayresult>
+<Button id="b1" name="button" (click)="clicked()">{{buttonDisplay}}</Button>
+<app-displayresult [buttonChildText]="translatedText"></app-displayresult>
+</form>

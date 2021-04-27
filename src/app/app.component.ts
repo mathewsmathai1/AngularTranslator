@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import axios from 'axios';
 
 @Component({
@@ -8,30 +9,41 @@ import axios from 'axios';
 })
 export class AppComponent {
   title = 'translatorapp';
-  buttonText = '';
+  translatedText = '';
   buttonDisplay = 'Click to translate';
   source : any;
   target : any;
+
+  mainForm : FormGroup;
 
  /* whenbuttonclicked(textToBeTranslated : HTMLInputElement)
   {
        this.clicked(textToBeTranslated.value);
        console.log("HEY THERE");
   } */
-  async clicked(textToBeTranslated : HTMLInputElement)
+
+  constructor(fBuilder : FormBuilder)
   {
-    this.buttonDisplay = "Button Clicked"
+     this.mainForm = fBuilder.group({'textToBeTranslated':[],'source':[],'target':[]});
+  }
+
+  async clicked()
+  {
+    this.buttonDisplay = "Translating Current Text";
     console.log("Hello");
-    document.getElementById('b1').innerHTML="Clicked";
+    //document.getElementById('b1').innerHTML="Clicked";
+
+    console.log("Print Value of Source: "+this.mainForm.get('source').value);
     //let link ='http://localhost:5002/translate?source=en&target=es&text=Iam%20are%20awesome%2C%20my%20Friend.';
-    let link =`https://therealtranslator.herokuapp.com/translate?source=${this.source}&target=${this.target}&text=${encodeURI(textToBeTranslated.value)}`
+    let link =`https://therealtranslator.herokuapp.com/translate?source=${this.mainForm.get('source').value}&target=${this.mainForm.get('target').value}&text=${encodeURI(this.mainForm.get('textToBeTranslated').value)}`
 
    // this.buttonText = textToBeTranslated.value;
 
     await axios.get(link)
   .then((response) => {
     console.log("Response: ",response)
-    this.buttonText = response.data
+    this.translatedText = response.data;
+    this.buttonDisplay = "Click To Translate";
   }).
   catch(err=>{
     console.log("Error: ",err);
