@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import axios from 'axios';
 
 @Component({
@@ -24,7 +24,7 @@ export class AppComponent {
 
   constructor(fBuilder : FormBuilder)
   {
-     this.mainForm = fBuilder.group({'textToBeTranslated':[],'source':[],'target':[]});
+     this.mainForm = fBuilder.group({'textToBeTranslated':[],'source':['',Validators.required],'target':[]});
   }
 
   async clicked()

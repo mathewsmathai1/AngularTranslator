@@ -1,6 +1,6 @@
 <!--label for="fname">Enter Text To Be Translated:</label &nbsp;  -->
 <!--input #textToBeTranslated &nbsp;&nbsp;  --> 
-<form [formGroup]="mainForm">
+<form [formGroup]="mainForm"  (ngSubmit)="mainForm.valid && clicked()">
 <div class="input-field col s6">
     <input id="textToBeTranslated" name="textToBeTranslated" [formControl]="mainForm.controls['textToBeTranslated']" type="text" class="validate" #textToBeTranslated>
     <label for="textToBeTranslated">Enter Text To Be Translated:</label>
@@ -9,12 +9,13 @@
     <input id="source"  name="source" [formControl]="mainForm.controls['source']" type="text" class="validate" >
     <label for="source">Enter Source:</label>&nbsp;
   </div>
+  <div *ngIf="!mainForm.controls['source'].valid && mainForm.controls['source'].touched" class="input-field col s6">Source is Required</div>
   <div class="input-field col s6">
     <input id="target" name="target" [formControl]="mainForm.controls['target']" type="text" class="validate">
     <label for="target" >Target: </label>
  </div>
 
 <br>
-<Button id="b1" name="button" (click)="clicked()">{{buttonDisplay}}</Button>
+<Button id="b1" type="sumbit" name="button" >{{buttonDisplay}}</Button>
 <app-displayresult [buttonChildText]="translatedText"></app-displayresult>
 </form>
