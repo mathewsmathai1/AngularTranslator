@@ -24,9 +24,15 @@ export class AppComponent {
 
   constructor(fBuilder : FormBuilder)
   {
-     this.mainForm = fBuilder.group({'textToBeTranslated':[],'source':['',Validators.required],'target':[]});
+     this.mainForm = fBuilder.group({'textToBeTranslated':[],'source':['',Validators.required],'target':[],'submit':[]});
   }
 
+  setAllAsTouched() : boolean //sets all felds as touched to validate on submit
+  {
+    this.mainForm.markAllAsTouched();
+    console.log("Boolean For Touched: "+this.mainForm.controls['source'].touched)
+    return true;
+  }
   async clicked()
   {
     this.buttonDisplay = "Translating Current Text";

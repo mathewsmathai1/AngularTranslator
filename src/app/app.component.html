@@ -1,21 +1,26 @@
 <!--label for="fname">Enter Text To Be Translated:</label &nbsp;  -->
 <!--input #textToBeTranslated &nbsp;&nbsp;  --> 
-<form [formGroup]="mainForm"  (ngSubmit)="mainForm.valid && clicked()">
+<form [formGroup]="mainForm"  (ngSubmit)="setAllAsTouched() && mainForm.valid && clicked()" >
 <div class="input-field col s6">
     <input id="textToBeTranslated" name="textToBeTranslated" [formControl]="mainForm.controls['textToBeTranslated']" type="text" class="validate" #textToBeTranslated>
     <label for="textToBeTranslated">Enter Text To Be Translated:</label>
   </div>
+  <!-- *ngIf="mainForm.submitted && !mainForm.controls['source'].valid && (mainForm.controls['source'].touched)" -->
+  <!--*ngIf="!mainForm.controls['source'].valid && (mainForm.controls['source'].touched)"-->
+  <!--div  *ngIf="!mainForm.controls['source'].valid && (mainForm.controls['source'].touched)" class="input-field col s6"-->
+  <div  *ngIf="!mainForm.controls['source'].valid && (mainForm.controls['source'].touched)" class="input-field col s6">
+    <p style="color:red">*Source is Required*</p>
+  </div>
   <div class="input-field col s6">
     <input id="source"  name="source" [formControl]="mainForm.controls['source']" type="text" class="validate" >
-    <label for="source">Enter Source:</label>&nbsp;
+    <label for="source">Enter Source:</label>
   </div>
-  <div *ngIf="!mainForm.controls['source'].valid && mainForm.controls['source'].touched" class="input-field col s6">Source is Required</div>
   <div class="input-field col s6">
     <input id="target" name="target" [formControl]="mainForm.controls['target']" type="text" class="validate">
     <label for="target" >Target: </label>
  </div>
 
 <br>
-<Button id="b1" type="sumbit" name="button" >{{buttonDisplay}}</Button>
+<Button id="b1" type="sumbit" name="submit"  >{{buttonDisplay}}</Button>
 <app-displayresult [buttonChildText]="translatedText"></app-displayresult>
 </form>
