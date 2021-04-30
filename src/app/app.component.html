@@ -1,17 +1,7 @@
 <!--label for="fname">Enter Text To Be Translated:</label &nbsp;  -->
 <!--input #textToBeTranslated &nbsp;&nbsp;  --> 
 
-<form [formGroup]="mainForm"  (ngSubmit)="setAllAsTouched() && mainForm.valid && clicked()" >
-  <h3>Language 1</h3>
-  <div class="input-field col s12">
-    <select id="languages" style="border-style: solid; border-color: red;" [formControl]="mainForm.controls['languages']"  name="languages"> <!--[formControl]="mainForm.controls['languages']" -->
-     
-        <option *ngFor="let language of languages" >{{language}}</option>
-    </select>
-    <label for="languages">Language</label>
-  
-  </div>
-  <h3>Language 2</h3>
+<form [formGroup]="mainForm" *ngIf="showForm" (ngSubmit)="setAllAsTouched() && mainForm.valid && clicked()" >
   <div  *ngIf="!mainForm.controls['textToBeTranslated'].valid && (mainForm.controls['textToBeTranslated'].touched)" class="input-field col s6">
     <p style="color:red">*Text To Translate is Required*</p>
   </div>
@@ -25,17 +15,23 @@
   <div  *ngIf="!mainForm.controls['source'].valid && (mainForm.controls['source'].touched)" class="input-field col s6">
     <p style="color:red">*Source is Required*</p>
   </div>
-  <div class="input-field col s6">
-    <input id="source"  name="source" [formControl]="mainForm.controls['source']" type="text" class="validate" >
-    <label for="source">Enter Source:</label>
+ <div class="input-field col s12">
+    <label for="languages" style="position: relative" >Enter Source:</label>
+    <select id="source"  name="source" style="border-style: solid; border-color: red;display: block;" [formControl]="mainForm.controls['source']"  name="source"> 
+     
+        <option *ngFor="let language of languages_list" >{{language}}</option>
+    </select> 
   </div>
   <div  *ngIf="!mainForm.controls['target'].valid && (mainForm.controls['target'].touched)" class="input-field col s6">
     <p style="color:red">*Target is Required*</p>
   </div>
-  <div class="input-field col s6">
-    <input id="target" name="target" [formControl]="mainForm.controls['target']" type="text" class="validate">
-    <label for="target" >Target: </label>
- </div>
+ <div class="input-field col s12">
+  <label for="target" style="position: relative" >Enter Target:</label>
+  <select id="target" name="target" style="border-style: solid; border-color: red;display: block;" [formControl]="mainForm.controls['target']"  name="target"> 
+   
+      <option *ngFor="let language of languages_list" >{{language}}</option>
+  </select> 
+</div>
 
 <br>
 <Button id="b1" type="sumbit" name="submit"  >{{buttonDisplay}}</Button>

@@ -2,3 +2,16 @@
 <textarea id="w3review" name="w3review" rows="4" cols="50">
     {{buttonChildText}}
     </textarea>
+
+<p>********This Translator is powered by IBM Watson********</p>
+The API calls used is an abstraction over the actual IBM API calls. It uses a predefined instance of the IBM service.<br>
+Following are the API Calls:<br>
+<ol>
+    <li>List Of Languages: <a>https://therealtranslator.herokuapp.com/languages/ </a>
+          <span style="color: red;">|Response: Array Of Json Objects (language, language_name)</span></li>
+    <li>Translate: <a> https://therealtranslator.herokuapp.com/translate?source=[language]&target=[language]&text=AddSourceAndTargetLanguage </a>
+          <span style="color: red;">|Response: Text</span></li>   
+  </ol>
+********Use the above calls to intergrate the translator with your application******** <br>
+Report Bugs: <a> https://github.com/mathewsmathai1/AngularTranslator </a>
+    <!--span style="color: red;">|Response: Text</span></li-->
