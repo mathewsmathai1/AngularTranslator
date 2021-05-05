@@ -1,3 +1,5 @@
+import { HttpClient } from '@angular/common/http';
+import { mapToMapExpression } from '@angular/compiler/src/render3/util';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import axios from 'axios';
@@ -31,43 +33,38 @@ export class AppComponent implements OnInit {
        console.log("HEY THERE");
   } */
 
-  constructor(fBuilder : FormBuilder)
+  constructor(fBuilder : FormBuilder , private httpClient : HttpClient)
   {
      this.mainForm = fBuilder.group({'textToBeTranslated':['',Validators.required],'source':['English'],'target':['Afrikaans'],'submit':[]});
   }
 
   async getLanguageList(){
     console.log("Inside async");
+    let counter = 0;
     //let link =`http://localhost:5002/languages/`
     let link =`https://therealtranslator.herokuapp.com/languages/`
     console.log("LINK: "+link);
-    await axios.get(link)
-    .then((response) => {
-      console.log("Response Language: ",response.data);
-      //this.languages = response.data;
-      this.languages_list = response.data.map((arrElement)=>{ return arrElement.language_name});
-      //this.languages= response.data.map((arrElement)=>{ return {[arrElement.language] : arrElement.language_name}});
-      this.languages = {};
-      for (var i=0, len=response.data.length; i < len; i++) {
-        this.languages[response.data[i].language_name] = response.data[i].language;
-    }
-
-    console.log(this.languages_list);
-      /*this.languages.forEach(element => {
-        var index = this.languages.indexOf(element);
-        var temp_array =  this.languages;
-       this.languages[index] = {temp_array[index] : response.data[index].language};
-        
-      });
-      this.languages.keys = response.data.map((arrElement)=>{ {arrElement.language}}); */
-      this.showForm = true;
-     // this.translatedText = response.data;
-     // this.buttonDisplay = "Click To Translate";
-    }).
-    catch(err=>{
-      console.log("Error: ",err);
+    this.languages = {};
+    this.languages_list= [];
+    this.httpClient.get(link).subscribe({
+      next: (response)=>{
+              console.log("The RESPONSE: "+JSON.stringify(response));
+              //this.languages_list = JSON.parse(JSON.stringify(response)).map((arrElement)=>{ return arrElement.language_name});
+              //this.languages_list[counter] = response[counter].language_name;
+              this.languages_list.push(...JSON.parse(JSON.stringify(response)).map((arrElement)=>{ return arrElement.language_name}));
+              //this.languages_list = JSON.parse(JSON.stringify(response)).map((arrElement)=>{ return arrElement.language_name});
+              //this.languages.assign(JSON.parse(JSON.stringify(response)).map((arrElement)=>{ return {[arrElement.language_name] : [arrElement.langauge]}}));
+              for (var i=counter, len=JSON.parse(JSON.stringify(response)).length; i < len; i++) {
+                this.languages[response[i].language_name] = response[i].language;
+              }
+              counter++;
+              
+              },
+      error : (err) => console.log(err),
+      complete :  () => {console.log("Completed"); this.showForm = true;}
     });
-    //return true;
+    
+    return true;
   }
 
   setAllAsTouched() : boolean //sets all felds as touched to validate on submit
